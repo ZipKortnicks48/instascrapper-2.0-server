@@ -101,7 +101,7 @@ class App():
             for row in rows:
                 commentsOld=self.handler.bdAPI.takeOldCommentsIds(row['media_id'])#старые 50
                 commentsOldN=list(map(lambda x: int(x['comment_id']),commentsOld))
-                commentsNew=self.handler.f.takeCommentsWithoutCircle(row['media_id'],50)#новые 50
+                commentsNew=self.handler.f.takeCommentsWithoutCircle(row['media_id'],50)#новые 50 2235850379474987758
                 for comment in commentsNew:
                     if comment['pk'] in commentsOldN:
                         break

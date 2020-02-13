@@ -13,7 +13,7 @@ class AppABC(QtWidgets.QMainWindow, QtWidgets.QTableWidgetItem, form_abc.Ui_Dial
     def showABC(self):
         words=self.bdAPI.getABC()
         for word in words:
-            self.textEdit.append(word[0])
+            self.textEdit.append(word['abc_text'])
     def saveWords(self):
         try:
             s=self.textEdit.toPlainText()
