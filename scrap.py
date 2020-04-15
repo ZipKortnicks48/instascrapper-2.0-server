@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 from src.finder import Finder
 from src.bdmeth import bdAPI
@@ -73,12 +74,18 @@ class scrapper():
     def searchAndAddNewMediaItems(self):
         oldMediaIds=self.bdAPI.getMediaIds()
         newMediaIds=self.f.findNewFeed()
+        # igtvs=self.f.findIGTV()
         oldMediaIds=list(map(lambda x: int(x["media_id"]),oldMediaIds))
         for media in newMediaIds:
             if media['pk'] in oldMediaIds:
                 break
             else:
                 self.bdAPI.addMediaItem(media)  
+        # for igtv in igtvs:
+        #     if int(igtv['node']['id']) in oldMediaIds:
+        #         break
+        #     else:
+        #         self.bdAPI.addIGTV(igtv['node'])   
 
 class App():
     def __init__(self):
@@ -93,6 +100,8 @@ class App():
             self.job()
         except Exception as e:
             self.handler.writeReport("Ошибка в цикле авторежима: "+str(e))        
+            error_text="Ошибка в цикле авторежима: "+str(e)
+            self.send_email_error(error_text,"smtp.yandex.ru", ['alex.sirokvasoff2011@yandex.ru'], "instagram@rkvv.ru")
         #циклы авторежима
     def job(self):  
             self.handler.bdAPI.commentsUnNew()#комментарии прочитаны БД
@@ -137,6 +146,18 @@ class App():
         server.sendmail(from_addr, to_addr, msg.as_string())
         server.quit()
         self.handler.writeReport("Успешная рассылка.")
+    def send_email_error(self,error_text,host, to_addr, from_addr): 
+        body_text=error_text+"\n"
+        msg = MIMEText(body_text, 'plain', 'utf-8')
+        msg['Subject'] = Header('ОШИБКА СКРАППЕРА!!!', 'utf-8')
+        msg['From'] = from_addr     
+        separator=", "
+        msg['To'] = separator.join(to_addr)
+        server = smtplib.SMTP_SSL(host,port=465)
+        server.login('instagram@rkvv.ru','asdqwe123')
+        server.sendmail(from_addr, to_addr, msg.as_string())
+        server.quit()
+        self.handler.writeReport("Успешная отправка ошибки.")
 if __name__ == "__main__":
     app=App()
     app.jobException()

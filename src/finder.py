@@ -8,7 +8,7 @@ import argparse
 import time
 import sys  # sys нужен для передачи argv в QApplication
 from instagram_private_api import Client, ClientCompatPatch, ClientError, ClientLoginError,MediaTypes,ClientCookieExpiredError, ClientLoginRequiredError,__version__ as client_version
-
+from instagram_web_api import Client as WebClient
 
 def to_json(python_object):
     if isinstance(python_object, bytes):
@@ -32,6 +32,7 @@ def onlogin_callback(api, new_settings_file):
 class Finder(object):
     def __init__(self,id):
         self.__getMyWebAPI()#в конструкторе сразу получим доступ к апи и доступ к айд отслеживаемого пользователя
+        self.webClient=WebClient(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
         time.sleep(0.2)
         self.userId=id
     def __getMyWebAPI(self):
@@ -114,4 +115,7 @@ class Finder(object):
         feed = self.myWebAPI.user_feed(self.userId)
         time.sleep(0.2)
         return feed['items']
-        
+    def findIGTV(self):
+        igtv=self.webClient.user_info2('igor_artamonov48')
+        time.sleep(0.2)
+        return igtv['edge_felix_video_timeline']['edges']

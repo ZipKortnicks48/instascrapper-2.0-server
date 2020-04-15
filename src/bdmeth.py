@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sqlite3
 import datetime
 import pymysql.cursors
@@ -25,6 +26,14 @@ class bdAPI():
         with self.connection.cursor() as cursor:
             cursor.execute("INSERT into media (media_id,media_date,user_id,comment_count,media_link) values ('%s','%s','%s','%s','https://www.instagram.com/p/%s/');"%(feed['pk'], feed['device_timestamp'],feed['user']['pk'],feed.get('comment_count',0),feed['code']))
             self.connection.commit()
+    def addIGTV(self,feed):
+        with self.connection.cursor() as cursor:
+            cursor.execute("INSERT into media (media_id,media_date,user_id,comment_count,media_link) values ('%s','%s','%s','%s','https://www.instagram.com/p/%s/');"%(feed['id'], feed['taken_at_timestamp'],feed['owner']['id'],feed['edge_media_to_comment'].get('count',0),feed['shortcode']))
+            self.connection.commit()
+    def deleteIGTV(self,feed):
+        with self.connection.cursor() as cursor:
+            cursor.execute("DELETE from media WHERE media_id="+feed["id"])
+            self.connection.commit()
     #получаем айдишники всех записей 
     def getMediaIds(self):
         with self.connection.cursor() as cursor:
@@ -42,7 +51,7 @@ class bdAPI():
     #добавить новый комментарий в базу с отметкой НОВЫЙ
     def addComment(self,comment,media_id):
         with self.connection.cursor() as cursor:
-            cursor.execute("INSERT into comments (comment_id,comment_text,comment_date,media_id,comment_meet,comment_new) values ('%s','%s','%s','%s',0,1);"%(comment['pk'],comment['text'].lower(),comment['created_at'],media_id))
+            cursor.execute("INSERT into comments (comment_id,comment_text,comment_date,media_id,comment_meet,comment_new) values ('%s','%s','%s','%s',0,1);"%(comment['pk'], comment['text'].replace("'","\""),comment['created_at'],media_id))
             self.connection.commit()
     #тащит все последние комменты айди (по 60 штук) из базы
     def takeOldCommentsIds(self,media):
