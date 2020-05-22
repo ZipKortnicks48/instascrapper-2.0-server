@@ -1,4 +1,4 @@
-
+﻿
 import formsUI.form_main as form_main
 from appUI.app_abc import AppABC
 from appUI.app_email import AppEmail
@@ -101,7 +101,7 @@ class App(QtWidgets.QMainWindow, QtWidgets.QTableWidgetItem, form_main.Ui_Dialog
     def jobThread(self):
         username=self.comboBoxAcc.currentText()
         self.handler=formHandler(username)
-        schedule.every(2).minutes.do(self.jobException)
+        schedule.every(3).minutes.do(self.jobException)
         while self.startEvent==True:
             schedule.run_pending()
             time.sleep(1)

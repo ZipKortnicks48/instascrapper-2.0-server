@@ -1,4 +1,4 @@
-import sqlite3
+﻿import sqlite3
 import datetime
 
 #создает БД если запустить __main__
@@ -56,7 +56,7 @@ class mysqlSettings():
         
     
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
-    #makeSettingsDataBase()  
+    makeSettingsDataBase()  
     s=mysqlSettings()
     s.updateServerSettings(['192.168.28.147', 'admin', 'admin', 'instagram', 'utf8mb4'])
     r=s.getServerSettings()

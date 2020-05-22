@@ -1,4 +1,4 @@
-#класс для работы с API
+﻿#класс для работы с API
 import json
 import codecs
 import datetime
@@ -40,7 +40,7 @@ class Finder(object):
         logger = logging.getLogger('instagram_private_api')
         logger.setLevel(logging.WARNING)
         password='Djljrfyfk48'
-        login='vodokanallipetsk'
+        login='supervodokanal2020'
         fil='loginset.json'
         print('Client version: {0!s}'.format(client_version))
 
