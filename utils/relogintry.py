@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
             # login new
             api = Client(
-                'vodokanallipetsk', 'Djljrfyfk48',
+                'vodok2020', 'Djljrfyfk48',
                 on_login=lambda x: onlogin_callback(x, 'fileset'))
         else:
             with open(settings_file) as file_data:
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             device_id = cached_settings.get('device_id')
             # reuse auth settings
             api = Client(
-                'vodokanallipetsk', 'Djljrfyfk48',
+                'vodok2020', 'Djljrfyfk48',
                 settings=cached_settings)
 
     except (ClientCookieExpiredError, ClientLoginRequiredError) as e:
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         # Login expired
         # Do relogin but use default ua, keys and such
         api = Client(
-            'vodokanallipetsk', 'Djljrfyfk48',
+            'vodok2020', 'Djljrfyfk48',
             device_id=device_id,
             on_login=lambda x: onlogin_callback(x,'fileset'))
 

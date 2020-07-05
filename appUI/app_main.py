@@ -101,7 +101,7 @@ class App(QtWidgets.QMainWindow, QtWidgets.QTableWidgetItem, form_main.Ui_Dialog
     def jobThread(self):
         username=self.comboBoxAcc.currentText()
         self.handler=formHandler(username)
-        schedule.every(3).minutes.do(self.jobException)
+        schedule.every(10).minutes.do(self.jobException)
         while self.startEvent==True:
             schedule.run_pending()
             time.sleep(1)

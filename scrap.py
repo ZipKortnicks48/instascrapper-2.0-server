@@ -9,6 +9,10 @@ from email.mime.text import MIMEText
 from email.header    import Header
 from PyQt5.QtWidgets import QMessageBox
 import time
+import telebot
+from telebot import apihelper
+
+
 class scrapper():
     def __init__(self,username):
         self.bdAPI=bdAPI()#экземпяр БД класса
@@ -130,7 +134,7 @@ class App():
         to_addr=list(map(lambda x: x['email_text'],to_addr))
         body_text="На странице найдены следующие комментарии:\n"
         for row in rows:
-            body_text+="\nТекст комментария:\n%s\nСсылка на запись в инстаграм:\n%s\nВремя публикации:\n%s\n"%(row['comment_text'],self.handler.bdAPI.getLinkByCommentId(row['comment_id']),datetime.fromtimestamp(int(row['comment_date'])).strftime("%d-%m-%Y %H:%M"))
+            body_text+="\nТекст комментария:\n%s\n\nСсылка на запись в инстаграм:\n%s\nВремя публикации:\n%s\n"%(row['comment_text'],self.handler.bdAPI.getLinkByCommentId(row['comment_id']),datetime.fromtimestamp(int(row['comment_date'])).strftime("%d-%m-%Y %H:%M"))
         msg = MIMEText(body_text, 'plain', 'utf-8')
         msg['Subject'] = Header('Поиск комментариев', 'utf-8')
         msg['From'] = from_addr     
@@ -141,7 +145,15 @@ class App():
         server.sendmail(from_addr, to_addr, msg.as_string())
         server.quit()
         self.handler.writeReport("Успешная рассылка.")
+        bot = telebot.TeleBot('1191171470:AAFD2RFpUR0-W_RTqO4uco2WpCAZOCT1b4M')
+        if len(body_text) > 4096:
+            for x in range(0, len(body_text), 4096):
+                bot.send_message('-489905645', body_text[x:x+4096])
+        else:
+            self.sendTelegramMessage(body_text)
+        #self.sendTelegramMessage(body_text)
     def send_error(self,text,host, to_addr, from_addr): 
+        self.sendTelegramErrorMessage(text)
         body_text="ОШИБКА:\n"+text
         msg = MIMEText(body_text, 'plain', 'utf-8')
         msg['Subject'] = Header('ОШИБКА В РАБОТЕ СКРАППЕРА', 'utf-8')
@@ -152,8 +164,12 @@ class App():
         server.login('vodokanal482019@gmail.com','Djljrfyfk48')
         server.sendmail(from_addr, to_addr, msg.as_string())
         server.quit()
-        
-
+    def sendTelegramErrorMessage(self,text):
+        bot = telebot.TeleBot('1191171470:AAFD2RFpUR0-W_RTqO4uco2WpCAZOCT1b4M')
+        bot.send_message('-489905645', "*Ошибка при выполнении запроса к API-Instagram*:\n\n"+text,parse_mode="Markdown" )
+    def sendTelegramMessage(self,text):
+        bot = telebot.TeleBot('1191171470:AAFD2RFpUR0-W_RTqO4uco2WpCAZOCT1b4M')
+        bot.send_message('-379497515', text )
 if __name__ == "__main__":
     app=App()
     app.jobException()
