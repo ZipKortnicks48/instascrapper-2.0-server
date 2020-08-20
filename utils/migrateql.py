@@ -2,7 +2,7 @@ import pymysql.cursors
 import datetime  
 import sqlite3
 # Подключиться к базе данных.
-connection = pymysql.connect(host='192.168.28.147',
+connection = pymysql.connect(host='192.168.28.187',
                              user='admin',
                              password='admin',                             
                              db='instagram',

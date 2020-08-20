@@ -148,7 +148,7 @@ class App():
         bot = telebot.TeleBot('1191171470:AAFD2RFpUR0-W_RTqO4uco2WpCAZOCT1b4M')
         if len(body_text) > 4096:
             for x in range(0, len(body_text), 4096):
-                bot.send_message('-489905645', body_text[x:x+4096])
+                bot.send_message('-379497515', body_text[x:x+4096])
         else:
             self.sendTelegramMessage(body_text)
         #self.sendTelegramMessage(body_text)

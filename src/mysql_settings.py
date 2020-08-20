@@ -58,6 +58,6 @@ class mysqlSettings():
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     makeSettingsDataBase()  
     s=mysqlSettings()
-    s.updateServerSettings(['192.168.28.147', 'admin', 'admin', 'instagram', 'utf8mb4'])
+    s.updateServerSettings(['192.168.28.187', 'admin', 'admin', 'instagram', 'utf8mb4'])
     r=s.getServerSettings()
     s.getMail()

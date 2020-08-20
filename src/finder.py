@@ -40,7 +40,7 @@ class Finder(object):
         logger = logging.getLogger('instagram_private_api')
         logger.setLevel(logging.WARNING)
         password='Djljrfyfk48'
-        login='vodok2020'
+        login='ogupogup2020'
         fil='loginset.json'
         print('Client version: {0!s}'.format(client_version))
 
